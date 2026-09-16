@@ -1,0 +1,25 @@
+# Streamlit theme + server config.
+#
+# The app injects its own navy/gold CSS, but Streamlit's *base* theme decides the
+# canvas colour, the widget defaults (dataframe grid, sliders, focus rings) and
+# whether the page flashes white while it boots. Pinning base = "dark" keeps the
+# deployed app identical to local dev, whatever the viewer's OS theme is.
+#
+# Optional: delete this file if you would rather rely on the app's CSS alone.
+
+[theme]
+base = "dark"
+primaryColor = "#c8964a"
+backgroundColor = "#0b1428"
+secondaryBackgroundColor = "#0e1730"
+textColor = "#e9eef7"
+
+[server]
+headless = true
+# The file watcher walks every imported module; when Transformers is imported at
+# runtime it hits optional model submodules and prints scary-looking noise into
+# the Cloud logs, e.g. "ModuleNotFoundError: No module named 'torchvision'"
+# raised from transformers/models/zoedepth. It is caught internally and harmless,
+# but it makes real errors hard to spot. Cloud apps pick up changes from your git
+# push (not from the watcher), so turning it off costs nothing there.
+fileWatcherType = "none"

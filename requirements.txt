@@ -1,0 +1,17 @@
+# AURORA FINANALYTICS — deployment dependencies
+# Streamlit Community Cloud installs this file automatically on every build.
+# Verified against the app on 2026-09-16 (see DEPLOY.md, "What I checked").
+
+# CPU build of PyTorch. This line is load-bearing: on Linux, plain "torch"
+# pulls the CUDA build plus ~2 GB of nvidia-* wheels this app never uses.
+--extra-index-url https://download.pytorch.org/whl/cpu
+
+# --- app runtime -------------------------------------------------------------
+streamlit==1.64.0          # app needs >=1.51 (st.plotly_chart(width="stretch"))
+plotly>=5.24
+pandas>=2.2
+numpy>=1.26
+scipy>=1.13                # optional: only used for the p-values
+yfinance>=1.0,<2           # price bars + Yahoo headline feed; pinned <2 (breaks often)
+transformers>=4.44         # verified on both 4.57 and 5.17
+torch==2.9.1+cpu           # pip installs the CUDA build instead if the index line is dropped
